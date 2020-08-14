@@ -1,9 +1,15 @@
 const BundleTracker = require("webpack-bundle-tracker");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
+
+
 const pages = {
     'main': {
         entry: './src/jrbenriquez/entry/main.js',
+        chunks: ['chunk-common']
+    },
+    'about': {
+        entry: './src/pages/about/entry/about.js',
         chunks: ['chunk-common']
     },
     'fruit-counter': {
@@ -25,7 +31,6 @@ module.exports = {
         : 'http://localhost:8080/',
     outputDir: '../jrbenriquez/static/vue/',
     chainWebpack: config => {
-
         config.optimization
             .splitChunks({
                 cacheGroups: {

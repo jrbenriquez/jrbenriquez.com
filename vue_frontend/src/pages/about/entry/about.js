@@ -2,13 +2,12 @@ import Vue from "vue/dist/vue.js";
 
 import '@/jrbenriquez/assets/css/tailwind.css'
 
-const MainPage = () => import( /* webpackChunkName: "chunk-main" */ "../components/MainPage.vue");
+const AboutPage = () => import( /* webpackChunkName: "chunk-about" */ "../components/AboutPage.vue");
 
 Vue.config.productionTip = false
 
 // Mount top level components
 new Vue({
   el: "#app",
-  components: {MainPage}
+  components: {AboutPage},
 });
-

@@ -7,6 +7,7 @@ module.exports = {
       title: ['Lato', 'sans-serif'],
       primary: ['Lato', 'sans-serif'],
       secondary: ['Lato', 'sans-serif'],
+      personal: ['Shadows Into Light', 'sans-serif']
   },
     extend: {},
   },

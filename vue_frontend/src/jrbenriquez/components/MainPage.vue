@@ -1,23 +1,25 @@
 <template>
 
-  <div id="app" class="text-center">
+  <div id="main" class="text-center">
     <section class="">
-      <div class="flex justify-around my-10 md:my-32">
-        <div class="flex-col text-6xl">
-            <div><span class="font-secondary font-thin ">I am a</span></div>
-            
+      <div class="flex justify-around my-20 md:my-28">
+        <div class="flex-col text-4xl md:text-6xl">
+            <div class="mb-2 md:mb-0"><span class="font-secondary font-thin ">I'm a</span></div>
             
 
-            <div class="flex border-solid border-b-4 inline border-gray-600">
-              <div v-if="labels[0]['iconify']" v-html="labelIconify" class="my-auto px-10">
+            <div class="flex border-solid">
+              <div v-if="labels[0]['iconify']" v-html="labelIconify" class="m-auto px-10">
               </div> 
-              <div>
+              <div class="border-b-4 inline border-gray-600">
                 {{labels[0]["label"]}}
               </div>
             </div>
         </div>
       </div>
     </section>
+    Add Bouncing Arrow
+    <br>
+    Add More Content
   </div>
 </template>
 
@@ -44,7 +46,8 @@
               iconify: 'logos-django'
           },
           {
-              label: '🎸 Bassist',
+              label: 'Bassist',
+              iconify: 'noto:guitar'
           },
           ],
       }
