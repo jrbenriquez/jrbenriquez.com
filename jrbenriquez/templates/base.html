@@ -46,14 +46,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav m-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'home' %}">Home </a>
             </li>
-<!--            <li class="nav-item">-->
-<!--              <a class="nav-link" href="{% url 'about' %}">About</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--              <a class="nav-link" href="{% url 'fruit:counter' %}">Fruit Counter</a>-->
-<!--            </li>-->
+            <li id="about" class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}">About </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'fruit:counter' %}">Bass Shed</a>
+            </li>
 <!--            <li class="nav-item">-->
 <!--              <a class="nav-link" href="{% url 'fruit:list' %}">Fruit List</a>-->
 <!--            </li>-->
@@ -114,9 +114,14 @@
       <!-- place project specific Javascript in this file -->
       
       <script src="{% static 'js/project.js' %}"></script>
-      
 
-    {% endblock javascript %}
+    {% endblock %}
+
+    {% block extended_javascript %}
+
+
+
+    {% endblock %}
   </body>
 </html>
  

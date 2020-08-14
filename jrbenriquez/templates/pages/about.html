@@ -1,1 +1,14 @@
 {% extends "base.html" %}
+
+{% block extended_javascript %}
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+  var active = document.getElementsByClassName('active')[0];
+  var about = document.getElementById('about');
+  active.classList.remove("active");
+  about.classList.add("active");
+
+});
+</script>
+
+{% endblock %}
