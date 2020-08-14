@@ -1,0 +1,23 @@
+/* These styles are generated from project.scss. */
+
+* {
+    font-family: 'JosefinSans-Regular';
+  }
+
+.alert-debug {
+  color: bla    ck;
+  background-color: white;
+  border-color: #d6e9c6;
+}
+
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
+}
+
+@font-face {
+  font-family: 'JosefinSans-Regular';
+  src: local('JosefinSans-Regular'),
+       url('../fonts/JosefinSans-Regular.ttf') format("truetype");
+}
