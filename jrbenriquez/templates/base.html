@@ -5,6 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}JRBENRIQUEZ.COM{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="My Personal Page on the Web">
     <meta name="author" content="John Rei Enriquez">
 
@@ -29,7 +30,9 @@
     <!-- This file stores project-specific CSS -->
     
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
-    
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Shadows+Into+Light&display=swap" rel="stylesheet">
     
     {% endblock %}
 
@@ -38,7 +41,7 @@
   <body>
 
     <div class="mb-1">
-      <nav class="navbar navbar-expand-md navbar-light bg-light">
+      <nav class="navbar navbar-expand-md navbar-light bg-gray-100 fixed w-full z-40">
         <button class="navbar-toggler navbar-toggler-right float-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,12 +51,12 @@
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'home' %}">Home </a>
             </li>
-            <li id="about" class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">About </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'fruit:counter' %}">Bass Shed</a>
-            </li>
+<!--            <li id="about" class="nav-item">-->
+<!--              <a class="nav-link" href="{% url 'about' %}">About </a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--              <a class="nav-link" href="{% url 'fruit:counter' %}">Bass Shed</a>-->
+<!--            </li>-->
 <!--            <li class="nav-item">-->
 <!--              <a class="nav-link" href="{% url 'fruit:list' %}">Fruit List</a>-->
 <!--            </li>-->

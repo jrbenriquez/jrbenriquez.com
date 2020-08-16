@@ -8,10 +8,6 @@ const pages = {
         entry: './src/jrbenriquez/entry/main.js',
         chunks: ['chunk-common']
     },
-    'about': {
-        entry: './src/pages/about/entry/about.js',
-        chunks: ['chunk-common']
-    },
     'fruit-counter': {
         entry: './src/fruit/entry/fruit_counter.js',
         chunks: ['chunk-common', 'chunk-state']
