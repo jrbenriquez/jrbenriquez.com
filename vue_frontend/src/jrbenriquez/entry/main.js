@@ -4,7 +4,7 @@ import "aos/dist/aos.css";
 
 import '@/jrbenriquez/assets/css/tailwind.css'
 
-const MainHeader = () => import( /* webpackChunkName: "chunk-main" */ "../components/MainHeader.vue");
+const MainPage = () => import( /* webpackChunkName: "chunk-main" */ "../components/MainPage.vue");
 
 Vue.config.productionTip = false
 
@@ -14,6 +14,6 @@ new Vue({
     AOS.init();
   },
   el: "#app",
-  components: {MainHeader}
+  components: {MainPage}
 });
 

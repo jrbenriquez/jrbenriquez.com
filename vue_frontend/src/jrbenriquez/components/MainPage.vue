@@ -62,7 +62,7 @@
 
 <script>
   export default {
-    name: 'MainHeader',
+    name: 'MainPage',
     props: {
       msg: String
     },
