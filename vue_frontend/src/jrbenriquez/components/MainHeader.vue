@@ -1,30 +1,30 @@
 <template>
 
   <div id="main" class="text-center">
-      
+
       <section ref="header" data-index="0" class="fade-top pt-16 h-screen" id="trigger-arrow" data-aos="fade" data-aos-offset="-100" data-aos-mirror="true">
         <div class="flex justify-around py-16 md:py-24">
           <div class="flex-col text-5xl md:text-6xl">
               <div class="mb-2 md:mb-0"><span class="font-secondary font-thin ">I'm a</span></div>
-              
+
 
               <div class="flex flex-col items-center">
                 <div v-if="labels[0]['iconify']" v-html="labelIconify" class="m-auto px-10 py-10 md:py-4">
-                </div> 
+                </div>
                 <div class="border-b-4 inline border-gray-600">
                   {{labels[0]["label"]}}
                 </div>
               </div>
           </div>
         </div>
-        
-        
+
+
         <div class="flex justify-around" data-aos="fade" data-aos-anchor="#trigger-arrow" data-aos-anchor-placement="top-center">
             <transition name="fade">
               <img ref="downArrow" v-if="showArrow" class="bounce w-10 h-10" src="../assets/down-arrow.svg" />
             </transition>
         </div>
-        
+
       </section>
   </div>
 </template>
@@ -46,7 +46,7 @@
               iconify: 'carbon:machine-learning'
           },
           {
-              label: 'Python Enthusiat',
+              label: 'Python Enthusiast',
               iconify: 'logos:python'
           },
           {
@@ -75,7 +75,7 @@
     watch: {
       currentScrollY: function (currentY, oldY) {
 
-        // Fade out arrow on scroll down 
+        // Fade out arrow on scroll down
         if (this.showArrow && currentY > this.arrowLocation - (this.$refs.header.clientHeight * 0.9)){
           this.showArrow = false;
         }
