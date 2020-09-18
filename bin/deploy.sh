@@ -12,11 +12,14 @@ fi
 
 cd $proj_dir
 
-# Build Vue Static files via npm run build
+echo "Building Vue Static files via npm run build"
 npm run build
-# Run python manage.py collectstatic
+
+echo "Running python manage.py collectstatic"
 python manage.py collectstatic
-# Restart Gunicorn Server
+
+echo "Restarting Gunicorn Server"
 cd bin && ./restart-gunicorn.sh && cd ..
-# Restart Nginx
-sudo service nginx rest
+
+echo "Restarting Nginx"
+sudo service nginx restart
