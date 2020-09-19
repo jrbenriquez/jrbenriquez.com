@@ -18,7 +18,7 @@ echo "Building Vue Static files via npm run build"
 npm --prefix $PROJECT_HOME/vue_frontend run build
 
 echo "Running python manage.py collectstatic"
-python manage.py collectstatic
+yes yes | python manage.py collectstatic
 
 echo "Restarting Gunicorn Server"
 cd bin && ./restart-gunicorn.sh && cd ..
