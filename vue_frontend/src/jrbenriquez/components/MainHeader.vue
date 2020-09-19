@@ -54,7 +54,7 @@
               iconify: 'logos-django'
           },
           {
-              label: 'Bassist',
+              label: 'Bass Player',
               iconify: 'noto:guitar'
           },
           ],

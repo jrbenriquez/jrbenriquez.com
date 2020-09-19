@@ -24,33 +24,10 @@
         arrowLocation: null,
         containerData: null,
         currentScrollY: 0,
-        labels: [
-          {
-              label: 'Backend Developer',
-              iconify: 'carbon:machine-learning'
-          },
-          {
-              label: 'Python Enthusiast',
-              iconify: 'logos:python'
-          },
-          {
-              label: 'Django Fanboy',
-              iconify: 'logos-django'
-          },
-          {
-              label: 'Bassist',
-              iconify: 'noto:guitar'
-          },
-          ],
       }
     },
     mounted(){
       window.addEventListener('scroll', this.handleScroll);
-      window.setInterval(()=>{
-        this.runLabels();
-      }, 2000);
-      console.log()
-      this.arrowLocation = this.$refs.downArrow.offsetTop
     },
     computed: {
       labelIconify: function () {
@@ -84,13 +61,6 @@
       handleScroll () {
         this.currentScrollY = window.top.scrollY
         
-      },
-      runLabels(){
-        if (!this.showArrow){
-          return
-        }
-        const first = this.labels.shift();
-        this.labels = this.labels.concat(first);
       },
       onScroll(e, position){
         console.log(e, position)

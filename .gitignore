@@ -9,3 +9,5 @@ db.sqlite3
 .env
 .mypy_cache/
 */webpack-stats.json
+.rc
+/staticfiles
