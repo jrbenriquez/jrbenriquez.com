@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Source virtual environment
-
+echo "Sourcing virtual environment"
+source $PROJECT_VENV_DIR/bin/activate
 
 if [ -z "$PROJECT_HOME" ]
 then
