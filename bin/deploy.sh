@@ -15,7 +15,7 @@ fi
 cd $proj_dir
 
 echo "Building Vue Static files via npm run build"
-npm run build
+npm --prefix $PROJECT_HOME/vue_frontend run build
 
 echo "Running python manage.py collectstatic"
 python manage.py collectstatic
