@@ -14,8 +14,11 @@
           <p class="font-secondary font-thin my-8" data-aos="fade-right" data-aos-delay="1500" data-aos-duration="1000" data-aos-easing="ease-in-out">
             <span class="text-bold">I entrust</span> my ideas to the power of <span class="text-bold">Python</span> and <span class="text-bold">Django</span>.
           </p>
-          <p class="font-secondary font-thin my-8" data-aos="fade-down" data-aos-delay="1800" data-aos-duration="1000" data-aos-easing="ease-in-out">
-            <span class="text-bold">I also carry</span> sparkles of <span class="text-bold">VueJS</span>, <span class="text-bold">Flutter</span> and <span class="text-bold">React</span> if ever I need to bust it out in the <span class="text-bold">frontend</span>
+          <p class="font-secondary font-thin mt-8" data-aos="fade-down" data-aos-delay="1800" data-aos-duration="1000" data-aos-easing="ease-in-out">
+            <span class="text-bold">I also carry</span> sparkles of <span class="text-bold">VueJS</span>, <span class="text-bold">Flutter</span> and <span class="text-bold">React</span>
+          </p>
+          <p class="font-secondary font-thin" data-aos="fade-down" data-aos-delay="1800" data-aos-duration="1000" data-aos-easing="ease-in-out">
+            if ever I need to bust it out in the <span class="text-bold">frontend</span>
           </p>
 
         </div>
