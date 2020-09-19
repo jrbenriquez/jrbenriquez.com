@@ -5,9 +5,11 @@
 
 if [ -z "$PROJECT_HOME" ]
 then
-  proj_dir=$PROJECT_HOME
+    echo "No PROJECT_HOME found. Using current directory"
+    proj_dir=.
 else
-  proj_dir=.
+    echo "Setting project directory"
+  proj_dir=$PROJECT_HOME
 fi
 
 cd $proj_dir
