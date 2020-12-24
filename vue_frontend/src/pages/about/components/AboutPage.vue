@@ -2,7 +2,7 @@
 
   <div ref="main" class="text-center">
       <div class="flex-none xs:flex-col md:flex justify-around items-center py-16 md:py-24" style="height: 120vh">
-        <div class="flex-1 self-center pb-24">
+            <div class="flex-1 self-end py-20 md:pb-48">
             <div ref="textdiv" class="" :style="textDivStyle">
                 <div class="text-4xl">
                     Contact Me
