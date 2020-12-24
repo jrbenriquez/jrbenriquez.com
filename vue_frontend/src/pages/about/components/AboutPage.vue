@@ -1,28 +1,21 @@
 <template>
 
-  <div class="">
-      <div class="flex justify-around">
-        <div class="text-3xl text-center mt-10 text-gray-700">
-          
-          <p class="font-secondary font-thin">
-            <span class="text-bold">I am</span> a <span class="text-bold">Web Developer</span> that makes sure the <span class="text-bold">kid inside</span> him 
-          </p>
-          
-          <p class="font-secondary font-thin">
-            <span class="text-bold">brings out </span> all his fascination with <span class="text-bold">technology</span> into <span class="text-bold">reality</span>.
-          </p> 
-          <p class="font-secondary font-thin my-8">
-            <span class="text-bold">I entrust</span> my ideas to the power of <span class="text-bold">Python</span> and <span class="text-bold">Django</span>.
-          </p>
-          <p class="font-secondary font-thin my-8">
-            <span class="text-bold">I have</span> a sparkle of <span class="text-bold">VueJS</span>, <span class="text-bold">Flutter</span>, <span class="text-bold">React</span> in case I need to bust it out in the <span class="text-bold">frontend</span>
-          </p>
-
-          Add Social links
-          <br>
-          Add Site Stack
-          
-          
+  <div ref="main" class="text-center">
+      <div class="flex-none xs:flex-col md:flex justify-around items-center py-16 md:py-24" style="height: 120vh">
+        <div class="flex-1 self-center pb-24">
+            <div ref="textdiv" class="" :style="textDivStyle">
+                <div class="text-4xl">
+                    Contact Me
+                </div>
+                <div>
+                    johnrei.enriquez@gmail.com
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 self-start">
+          <div ref="picdiv" :style="picDivStyle">
+              <img ref="mypic" class="" src="../../../jrbenriquez/assets/me.jpg" />
+          </div>
         </div>
       </div>
   </div>
@@ -34,9 +27,43 @@
     data: function () {
       return {
         staticRoot: process.env.VUE_APP_STATIC_ROOT,
+        picDivStyle: {},
+        textDivStyle: {},
+        currentScrollY: 0,
       }
     },
-    mounted() {
+    mounted(){
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    watch: {
+      currentScrollY: function () {
+        var mypic = this.$refs.mypic;
+        var mytext = this.$refs.textdiv;
+        var mypicReference = mypic.offsetTop;
+        var mainElement = this.$refs.main
+        mypic.style.opacity = 1 - (this.currentScrollY*3/mypicReference);
+        mytext.style.opacity = 1 - (this.currentScrollY*3/mypicReference);
+
+        let padding = this.currentScrollY;
+        if (padding <= mainElement.clientHeight/3) {
+            this.picDivStyle = {paddingTop:`${(padding*3)}px` };
+            this.textDivStyle = {paddingBottom:`${(padding/3)}px` };
+            }
+        //header.style.opacity = 1 - (this.currentScrollY/headerCheckpoint)
+          }
+
+    },
+    methods: {
+      handleScroll () {
+        this.currentScrollY = window.top.scrollY
+        
+      },
+      onScroll(e, position){
+        console.log(e, position)
+      },
+    },
+    destroyed () {
+      window.removeEventListener('scroll', this.handleScroll);
     },
   }
 

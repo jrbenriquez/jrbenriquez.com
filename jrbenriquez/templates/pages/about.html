@@ -1,15 +1,14 @@
 {% extends "base.html" %}
+{% load lazy_render_bundle from webpack_bundle %}
 
 
 {% block content %}
-
 <div id="app">
-
+    <about-page msg="Hello from Django and Vue!"></about-page>
 </div>
 
 
 {% endblock content %}
-
 
 {% block extended_javascript %}
 <script>
@@ -18,6 +17,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var about = document.getElementById('about');
   active.classList.remove("active");
   about.classList.add("active");
+  {% lazy_render_bundle 'chunk-common' %}
+  {% lazy_render_bundle 'main' %}
 
 });
 </script>

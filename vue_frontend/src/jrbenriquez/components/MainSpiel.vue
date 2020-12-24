@@ -9,7 +9,7 @@
           </p>
 
           <p class="font-secondary font-thin" data-aos="fade-up" data-aos-delay="1000" data-aos-duration="1000" data-aos-easing="ease-in-out">
-            <span class="text-bold">brings out </span> his fascination with <span class="text-bold">technology</span> into <span class="text-bold">actuality</span>.
+            <span class="text-bold">brings out </span> his fascination with <span class="text-bold">technology</span> 
           </p>
           <p class="font-secondary font-thin my-8" data-aos="fade-right" data-aos-delay="1500" data-aos-duration="1000" data-aos-easing="ease-in-out">
             <span class="text-bold">I entrust</span> my ideas to the power of <span class="text-bold">Python</span> and <span class="text-bold">Django</span>.

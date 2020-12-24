@@ -1,14 +1,18 @@
 {% extends "base.html" %}
-{% load render_bundle from webpack_loader %}
+{% load lazy_render_bundle from webpack_bundle %}
 
 
 {% block content %}
-
 <div id="app">
     <main-page msg="Hello from Django and Vue!"></main-page>
 </div>
 
-{% render_bundle 'chunk-common' %}
-{% render_bundle 'main' %}
 
 {% endblock content %}
+
+{% block extended_javascript %}
+<script>
+{% lazy_render_bundle 'chunk-common' %}
+{% lazy_render_bundle 'main' %}
+</script>
+{% endblock %}
