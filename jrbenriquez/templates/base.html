@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load static wagtailcore_tags wagtailuserbar tailwind_tags django_htmx %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,8 +23,12 @@
         <base target="_blank">
         {% endif %}
 
+      <script src="{% static 'js/htmx.min.js' %}" defer></script>
+      {% django_htmx_script %}
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/jrbenriquez.css' %}">
+
+        {% tailwind_css %}
 
         {% block extra_css %}
 
@@ -40,7 +44,13 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
+        {% include "includes/header.html" %}
+
         {% block content %}{% endblock %}
+
+        <section class="bottom-0">
+        {% include "includes/footer.html" %}
+        </section>
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/jrbenriquez.js' %}"></script>

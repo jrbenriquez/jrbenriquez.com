@@ -4,6 +4,8 @@ from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 
+from blog.models import BlogIndexPage
+
 
 class HomePage(Page):
     self_photo = models.ForeignKey(
@@ -61,3 +63,10 @@ class HomePage(Page):
         ),
         FieldPanel("body"),
     ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        blog = BlogIndexPage.objects.get()
+        children = blog.get_children().live().order_by("-first_published_at")
+        context["blogpages"] = children
+        return context
