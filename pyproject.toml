@@ -13,6 +13,7 @@ django-tailwindcss = "^0.4.0"
 django-htmx = "^1.21.0"
 django-cotton = "^1.5.2"
 wagtail = "^6.3.2"
+django-tailwind = {extras = ["reload"], version = "^3.8.0"}
 
 
 [build-system]

@@ -1,8 +1,11 @@
 from django.db import models
+from django.core.paginator import Paginator
 
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+
+from blog.models import BlogIndexPage
 
 
 class HomePage(Page):
@@ -61,3 +64,14 @@ class HomePage(Page):
         ),
         FieldPanel("body"),
     ]
+
+    def get_context(self, request):
+        # Provides the 10 most recent Blog Posts
+        context = super().get_context(request)
+        blog = BlogIndexPage.objects.get()
+        children = blog.get_children().live().order_by("-first_published_at")
+
+        paginator = Paginator(children, 10)
+        blogpages = paginator.page(1)
+        context["blogpages"] = blogpages
+        return context

@@ -5,45 +5,33 @@
 {% block body_class %}template-blogpostpage{% endblock %}
 
 {% block content %}
-  <h1>{{ page.title }}</h1>
-    <p class="meta">{{ page.date }}</p>
 
-    {% with page.authors.all as authors %}
-      {% if authors %}
-        <h3>Posted by: </h3>
-        <ul>
-          {% for author in authors %}
-            <li style="display: inline">
-              {% image author.author_image fill-40x60 style="vertical-align: middle" %}
-              {{author.name}}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+    <main class="flex-grow flex flex-col items-center px-4">
+        <article class="bg-white max-w-4xl w-full my-6 p-8 rounded-lg shadow-md">
+          <h2 class="text-3xl font-semibold text-gray-900 mb-2">{{page.title}}</h2>
+            <p class="text-sm text-gray-500 mb-4">{{page.date}} by
 
-    <div class="intro">{{ page.intro }}</div>
+            {% with page.authors.all as authors %}
+              {% if authors %}
+                  {% for author in authors %}
+                      {{author.name}}
+                  {% endfor %}
+              {% endif %}
+            {% endwith %}
+            </p>
 
-    <p>{{ page.body|richtext }}</p>
 
-    {% for item in page.gallery_images.all %}
-          <div style="margin: 10px">
-            {% image item.image fill-320x240 %}
-            <p>{{ item.caption }}</p>
-        </div>
-    {% endfor %}
+            <div class="prose prose-gray text-gray-700">
 
-    <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
+              <p class="mb-4">{{page.intro}}</p>
+                <p class="mb-4">{{ page.body|richtext }}</p>
 
-    {% with page.tags.all as tags %}
-      {% if tags %}
-        <div class="tags">
-          <h3>Tags</h3>
-          {% for tag in tags %}
-            <a href="{% slugurl 'tags' %}?tag={{tag}}"><button type="button">{{tag}}</button></a>
-          {% endfor %}
-        </div>
-      {% endif %}
+            </div>
 
-    {% endwith %}
+            <div class="mt-6">
+              <a href="{{ page.get_parent.url }}" class="inline-block bg-gray-900 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-800 hover:shadow-lg transition duration-200">Back to Blog Posts</a>
+            </div>
+        </article>
+    </main>
+
 {% endblock %}

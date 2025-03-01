@@ -1,0 +1,8 @@
+{% load wagtailcore_tags %}
+<article class="bg-white max-w-4xl w-full my-4 p-6 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition duration-200">
+  <a href="{% pageurl post %}" class="">
+  <h2 class="text-2xl font-semibold text-gray-900">{{ post.title }}</h2>
+    <p class="text-sm text-gray-500 mt-1">October 10, 2023</p>
+    <p class="text-base text-gray-700 mt-2">{{ post.intro }}</p>
+  </a>
+</article>

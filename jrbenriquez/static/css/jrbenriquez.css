@@ -15,3 +15,10 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, Aptos, Roboto, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
+
+
+.search-box {
+  padding: 10px;
+  margin: 30px;
+}
+
