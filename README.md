@@ -1,4 +1,4 @@
-# Wagtail Blog Setup
+# Personal Blog
 
 This project is based on the official Wagtail documentation for a portfolio/blog site, but uses **Poetry** instead of a traditional virtual environment.
 
