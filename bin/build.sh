@@ -2,6 +2,8 @@
 # Exit on error
 set -o errexit
 
+# Install dependencies
+poetry install
 # Convert static asset files
 poetry run python manage.py collectstatic --no-input
 
