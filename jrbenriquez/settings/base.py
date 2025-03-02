@@ -12,10 +12,24 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
+import environ
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    DATABASE_URL=(str, f"sqlite:///{BASE_DIR}/db.sqlite3"),
+    SECRET_KEY=(str, ""),
+    DJANGO_SETTINGS_MODULE=(str, None)
+)
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+SECRET_KEY = env("SECRET_KEY")
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -61,6 +75,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
 ]
@@ -93,10 +108,10 @@ WSGI_APPLICATION = "jrbenriquez.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
+    'default': dj_database_url.config(
+        default=env("DATABASE_URL"),
+        conn_max_age=600
+    )
 }
 
 
