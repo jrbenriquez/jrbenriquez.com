@@ -14,14 +14,6 @@ INSTALLED_APPS += [
     "storages",
 ]
 
-# Cloudflare R2 S3 Storage Settings
-AWS_S3_ACCESS_KEY_ID = env("R2_ACCESS_KEY_ID")
-AWS_S3_SECRET_ACCESS_KEY = env("R2_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = env("AWS_S3_ENDPOINT_URL") # 
-AWS_S3_ADDRESSING_STYLE = "virtual"  # Uses bucket as a subdomain
-AWS_S3_SIGNATURE_VERSION = "s3v4"  # Explicitly enforce SigV4
-
 # Set default storage backend for production
 STORAGES["default"] = {
     "BACKEND": "storages.backends.s3.S3Storage",
