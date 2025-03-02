@@ -9,7 +9,7 @@ services:
     name: jrbenriquez
     runtime: python
     region: singapore
-    buildCommand: "./bin/build.sh"
+    buildCommand: "/bin/build.sh"
     startCommand: "poetry run python -m gunicorn jrbenriquez.wsgi:application"   
     envVars:
       - key: DATABASE_URL
