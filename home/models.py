@@ -68,7 +68,9 @@ class HomePage(Page):
     def get_context(self, request):
         # Provides the 10 most recent Blog Posts
         context = super().get_context(request)
-        blog = BlogIndexPage.objects.get()
+        blog = BlogIndexPage.objects.first()
+        if not blog:
+            return context
         children = blog.get_children().live().order_by("-first_published_at")
 
         paginator = Paginator(children, 10)
