@@ -45,7 +45,6 @@ class BlogPostPage(Page):
 
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
-    body = RichTextField(blank=True)
     content = StreamField([
             ('heading', blocks.CharBlock(form_classname="title")),
             ('paragraph', blocks.RichTextBlock()),
@@ -76,7 +75,6 @@ class BlogPostPage(Page):
             FieldPanel('tags'),
         ], heading="Blog information"),
         FieldPanel('intro'),
-        FieldPanel('body'),
         FieldPanel('content'),
         InlinePanel('gallery_images', label="Gallery images"),
     ]
