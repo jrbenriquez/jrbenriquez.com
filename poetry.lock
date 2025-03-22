@@ -1203,6 +1203,21 @@ docs = ["Sphinx (>=7.3)", "myst-parser (==2.0.0)", "pyenchant (>=3.1.1,<4)", "sp
 testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "boto3 (>=1.28,<2)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7)", "djhtml (==3.0.6)", "doc8 (==0.8.1)", "factory-boy (>=3.2)", "freezegun (>=0.3.8)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "ruff (==0.1.5)", "semgrep (==1.40.0)", "tblib (>=2.0,<3.0)"]
 
 [[package]]
+name = "wagtailcodeblock"
+version = "1.29.0.2"
+description = "Wagtail Code Block provides PrismJS syntax highlighting in Wagtail."
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "wagtailcodeblock-1.29.0.2-py3-none-any.whl", hash = "sha256:c6bfe8be08f5e5968d7f25747f0a90f6e717159c62936a6732307382e8b2a8f5"},
+    {file = "wagtailcodeblock-1.29.0.2.tar.gz", hash = "sha256:4e20a30ff007f1558259b1e16a757aa8a89f72fbbae5dc62f264bc84af467954"},
+]
+
+[package.dependencies]
+wagtail = ">=4"
+
+[[package]]
 name = "whitenoise"
 version = "6.9.0"
 description = "Radically simplified static file serving for WSGI applications"
@@ -1247,4 +1262,4 @@ wand = ["Wand (>=0.6,<1.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "4466f8b872719181d45b3da01d9e53c032505dfe105f549420e9fab2d62f4500"
+content-hash = "47a842d494adef67f177d35cb29d85f32802197476574ff5139e80016c9f855e"

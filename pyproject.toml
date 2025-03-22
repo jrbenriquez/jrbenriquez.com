@@ -22,6 +22,7 @@ uvicorn = "^0.34.0"
 django-environ = "^0.12.0"
 boto3 = "^1.37.4"
 django-storages = "^1.14.5"
+wagtailcodeblock = "^1.29.0.2"
 
 
 [build-system]
