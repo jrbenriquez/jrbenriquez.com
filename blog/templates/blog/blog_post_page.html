@@ -24,7 +24,9 @@
             <div class="prose prose-gray text-gray-700">
 
               <p class="mb-4">{{page.intro}}</p>
-              {{ self.content|escape }}
+              {% for block in page.content %}
+                  {% include_block block %}
+              {% endfor %}
 
             </div>
 
