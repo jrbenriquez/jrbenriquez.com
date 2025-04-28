@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+
+{% block content %}
+<div class="main-home-div mb-8">
+  <center>{% image page.self_photo width-75 format-jpeg jpegquality-100 class="self-img" %}</center>
+  <center class="name-text">JOHN REI ENRIQUEZ</center>
+  <center>{{page.self_text}}</center>
+</div>
+
+{% include 'blog/partials/blog_page_list.html' with blogpages=blogpages %}
+
+{% endblock content %}
