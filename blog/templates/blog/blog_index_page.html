@@ -17,6 +17,7 @@
           name="query"
           placeholder="Search for..."
           class="w-full rounded-md border-gray-200 py-2.5 shadow-xs sm:text-sm"
+          hx-push-url="true"
           hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
           hx-get="{% url 'blog:search' %}"
           hx-target="#BlogIndexPageList"
