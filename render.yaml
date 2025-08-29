@@ -1,0 +1,26 @@
+databases:
+  - name: jrbenriquez
+    databaseName: jrbenriquez
+    user: jrbenriquez
+    region: singapore
+
+services:
+  - type: web
+    name: jrbenriquez
+    runtime: python
+    region: singapore
+    buildCommand: "./bin/build.sh"
+    startCommand: "poetry run python -m gunicorn jrbenriquez.wsgi:application"   
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: jrbenriquez
+          property: connectionString
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: POETRY_VERSION
+        value: "2.0.1"
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: DJANGO_SETTINGS_MODULE
+        value: "jrbenriquez.settings.production"
