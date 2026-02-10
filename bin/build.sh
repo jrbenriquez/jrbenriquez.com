@@ -4,6 +4,10 @@ set -o errexit
 
 # Install dependencies
 poetry install
+
+# Build Tailwind CSS
+poetry run python manage.py tailwind build
+
 # Convert static asset files
 poetry run python manage.py collectstatic --no-input
 
