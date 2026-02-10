@@ -2,8 +2,13 @@
 # Exit on error
 set -o errexit
 
-# Install dependencies
+# Install Python dependencies
 poetry install
+
+# Install Node dependencies for Tailwind
+cd styling/static_src
+npm install
+cd ../..
 
 # Build Tailwind CSS
 poetry run python manage.py tailwind build
