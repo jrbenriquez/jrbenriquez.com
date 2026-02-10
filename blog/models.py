@@ -1,6 +1,9 @@
 from django import forms
 from django.db import models
 from django.db.models.query import QuerySet
+from django.core.paginator import Paginator
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 from modelcluster.models import ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -26,6 +29,43 @@ class BlogIndexPage(Page):
         children = self.get_children().live().order_by("-first_published_at")
         context["blogpages"] = children
         return context
+
+    def serve_search(self, request):
+        query = request.GET.get("query")
+        base_queryset = self.get_children().live().specific()
+
+        if query:
+            search_results = base_queryset.search(query)
+        else:
+            search_results = base_queryset
+
+        paginator = Paginator(search_results, 10)
+        page = request.GET.get("page", 1)
+
+        try:
+            search_results = paginator.page(page)
+        except:
+            search_results = paginator.page(1)
+
+        html = render_to_string(
+            "blog/partials/blog_page_list.html", {"blogpages": search_results}
+        )
+        return HttpResponse(html)
+
+    def route(self, request, path_components):
+        if (
+            path_components
+            and len(path_components) == 1
+            and path_components[0] == "search"
+        ):
+            # Return RouteResult: (self, args, kwargs) - but for direct serve, use None pattern
+            return (self, [], {"action": "search"})
+        return super().route(request, path_components)
+
+    def serve(self, request, *args, **kwargs):
+        if kwargs.get("action") == "search":
+            return self.serve_search(request)
+        return super().serve(request, *args, **kwargs)
 
     content_panels = Page.content_panels + [FieldPanel("intro")]
 
@@ -78,6 +118,13 @@ class BlogPostPage(Page):
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("content"),
+        index.RelatedFields(
+            "tags",
+            [
+                index.SearchField("name"),
+            ],
+        ),
+        index.FilterField("post_type"),
     ]
 
     content_panels = Page.content_panels + [
@@ -158,6 +205,42 @@ class BlogOnlyIndexPage(Page):
         context["blogpages"] = children
         return context
 
+    def serve_search(self, request):
+        query = request.GET.get("query")
+        base_queryset = BlogPostPage.objects.live().filter(post_type="blog")
+
+        if query:
+            search_results = base_queryset.search(query)
+        else:
+            search_results = base_queryset
+
+        paginator = Paginator(search_results, 10)
+        page = request.GET.get("page", 1)
+
+        try:
+            search_results = paginator.page(page)
+        except:
+            search_results = paginator.page(1)
+
+        html = render_to_string(
+            "blog/partials/blog_page_list.html", {"blogpages": search_results}
+        )
+        return HttpResponse(html)
+
+    def route(self, request, path_components):
+        if (
+            path_components
+            and len(path_components) == 1
+            and path_components[0] == "search"
+        ):
+            return (self, [], {"action": "search"})
+        return super().route(request, path_components)
+
+    def serve(self, request, *args, **kwargs):
+        if kwargs.get("action") == "search":
+            return self.serve_search(request)
+        return super().serve(request, *args, **kwargs)
+
     content_panels = Page.content_panels + [FieldPanel("intro")]
 
     class Meta:
@@ -178,6 +261,42 @@ class ExplainerIndexPage(Page):
         )
         context["blogpages"] = children
         return context
+
+    def serve_search(self, request):
+        query = request.GET.get("query")
+        base_queryset = BlogPostPage.objects.live().filter(post_type="explainer")
+
+        if query:
+            search_results = base_queryset.search(query)
+        else:
+            search_results = base_queryset
+
+        paginator = Paginator(search_results, 10)
+        page = request.GET.get("page", 1)
+
+        try:
+            search_results = paginator.page(page)
+        except:
+            search_results = paginator.page(1)
+
+        html = render_to_string(
+            "blog/partials/blog_page_list.html", {"blogpages": search_results}
+        )
+        return HttpResponse(html)
+
+    def route(self, request, path_components):
+        if (
+            path_components
+            and len(path_components) == 1
+            and path_components[0] == "search"
+        ):
+            return (self, [], {"action": "search"})
+        return super().route(request, path_components)
+
+    def serve(self, request, *args, **kwargs):
+        if kwargs.get("action") == "search":
+            return self.serve_search(request)
+        return super().serve(request, *args, **kwargs)
 
     content_panels = Page.content_panels + [FieldPanel("intro")]
 

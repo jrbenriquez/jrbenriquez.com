@@ -7,10 +7,21 @@ from blog.models import BlogPostPage
 def search(request):
     query = request.GET.get("query")
     page = request.GET.get("page", 1)
+
+    # Filter by post type based on referrer URL
+    base_queryset = BlogPostPage.objects.live()
+    referrer = request.META.get("HTTP_REFERER", "")
+
+    if "explainer" in referrer.lower():
+        base_queryset = base_queryset.filter(post_type="explainer")
+    elif "blog" in referrer.lower():
+        base_queryset = base_queryset.filter(post_type="blog")
+    # If home page or other, show all posts (no filter)
+
     if query:
-        search_results = BlogPostPage.objects.live().search(query)
+        search_results = base_queryset.search(query)
     else:
-        search_results = BlogPostPage.objects.live()
+        search_results = base_queryset
 
     # Pagination
     paginator = Paginator(search_results, 10)
@@ -21,10 +32,6 @@ def search(request):
     except EmptyPage:
         search_results = paginator.page(paginator.num_pages)
 
-    context = {
-        "blogpages": search_results
-    }
+    context = {"blogpages": search_results}
 
-    return TemplateResponse(request, "blog/partials/blog_page_list.html", context )
-
-
+    return TemplateResponse(request, "blog/partials/blog_page_list.html", context)
