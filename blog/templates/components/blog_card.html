@@ -1,8 +1,17 @@
 {% load wagtailcore_tags %}
-<article class="bg-white max-w-4xl w-full my-4 p-6 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition duration-200">
+<article class="bg-white max-w-4xl w-full my-4 p-6 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition duration-200 relative">
   <a href="{% pageurl post %}" class="">
   <h2 class="text-2xl font-semibold text-gray-900">{{ post.title }}</h2>
   <p class="text-sm text-gray-500 mt-1">{{post.date}}</p>
     <p class="text-base text-gray-700 mt-2">{{ post.intro }}</p>
   </a>
+  {% if post.tags.all %}
+    <div class="flex flex-wrap gap-1.5 justify-end mt-4">
+      {% for tag in post.tags.all %}
+        <span class="inline-block bg-gray-900 text-white text-xs px-2.5 py-1 rounded hover:bg-gray-700 transition duration-150">
+          {{ tag.name }}
+        </span>
+      {% endfor %}
+    </div>
+  {% endif %}
 </article>

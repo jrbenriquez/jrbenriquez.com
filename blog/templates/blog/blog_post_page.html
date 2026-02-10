@@ -6,7 +6,7 @@
         <article class="bg-white w-full max-w-4xl mx-auto my-6 px-8 text-left">
             <center>
                 <h2 class="text-6xl font-semibold text-gray-900 mb-2">{{ page.title }}</h2>
-                <p class="text-sm text-gray-500 mb-6">
+                <p class="text-sm text-gray-500 mb-2">
                     {{ page.date }} by
                     {% with page.authors.all as authors %}
                         {% if authors %}
@@ -16,12 +16,21 @@
                 </p>
                 <hr class="mb-6" />
             </center>
-            <div class="prose prose-md leading-8 prose-gray text-gray-700 max-w-prose mx-auto">
+            <div class="post-div prose prose-md leading-8 prose-gray text-gray-700 max-w-prose mx-auto">
                 <p class="mb-4 space-y-6">{{ page.intro }}</p>
                 {% for block in page.content %}
                     {% include_block block %}
                 {% endfor %}
             </div>
+            {% if page.tags.all %}
+                <div class="flex flex-wrap gap-1.5 justify-end mt-4">
+                    {% for tag in page.tags.all %}
+                        <span class="inline-block bg-gray-900 text-white text-xs px-2.5 py-1 rounded hover:bg-gray-700 transition duration-150">
+                            {{ tag.name }}
+                        </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <center class="mt-6">
                 <a href="{{ page.get_parent.url }}"
                    class="inline-block bg-gray-900 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-800 hover:shadow-lg transition duration-200">Back to Blog Posts</a>

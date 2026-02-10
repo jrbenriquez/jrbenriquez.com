@@ -15,7 +15,7 @@ class HomePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
-        help_text="This is me!"
+        help_text="This is me!",
     )
 
     self_text = models.CharField(
@@ -66,12 +66,12 @@ class HomePage(Page):
     ]
 
     def get_context(self, request):
-        # Provides the 10 most recent Blog Posts
+        # Provides the 10 most recent Blog Posts (all types)
         context = super().get_context(request)
-        blog = BlogIndexPage.objects.first()
-        if not blog:
-            return context
-        children = blog.get_children().live().order_by("-first_published_at")
+        from blog.models import BlogPostPage
+
+        # Get all BlogPostPages regardless of parent, ordered by date
+        children = BlogPostPage.objects.live().order_by("-first_published_at")
 
         paginator = Paginator(children, 10)
         blogpages = paginator.page(1)

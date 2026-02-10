@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celery Primitives Explainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 25px;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #4a5568;
+        }
+        
+        .tab:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .content {
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .concept-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .concept-header h2 {
+            margin-bottom: 10px;
+        }
+        
+        .concept-header p {
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+        
+        .visual-demo {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .demo-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        
+        .task-flow {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .task {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-width: 100px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .arrow {
+            font-size: 24px;
+            color: #4a5568;
+            font-weight: bold;
+        }
+        
+        .parallel-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .result {
+            background: #48bb78;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        
+        .code-comment {
+            color: #68d391;
+        }
+        
+        .use-cases {
+            background: white;
+            border: 2px solid #bee3f8;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .use-cases h3 {
+            color: #2c5282;
+            margin-bottom: 15px;
+        }
+        
+        .use-cases ul {
+            list-style-position: inside;
+            color: #4a5568;
+            line-height: 2;
+        }
+        
+        .use-cases li {
+            margin-bottom: 8px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .highlight-box {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .highlight-box strong {
+            color: #d68910;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🥬 Celery Primitives Explained</h1>
+        <p class="subtitle">Understanding Groups, Chains, Chords & Chunks</p>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('group')">Group</button>
+            <button class="tab" onclick="showTab('chain')">Chain</button>
+            <button class="tab" onclick="showTab('chord')">Chord</button>
+            <button class="tab" onclick="showTab('chunk')">Chunk</button>
+            <button class="tab" onclick="showTab('comparison')">Comparison</button>
+        </div>
+        
+        <!-- GROUP -->
+        <div id="group" class="content active">
+            <div class="concept-header">
+                <h2>📦 Group</h2>
+                <p>Execute multiple tasks in parallel and collect all their results. Think of it as "run all these tasks at the same time."</p>
+            </div>
+            
+            <div class="visual-demo">
+                <div class="demo-title">Visual Flow:</div>
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="font-weight: 600; color: #2d3748;">Start →</div>
+                    <div class="parallel-container">
+                        <div class="task">Task 1</div>
+                        <div class="task" style="animation-delay: 0.3s;">Task 2</div>
+                        <div class="task" style="animation-delay: 0.6s;">Task 3</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="result">[Result1, Result2, Result3]</div>
+                </div>
+            </div>
+            
+            <div class="code-example">
+from celery import group<br>
+<br>
+<span class="code-comment"># Execute 3 tasks in parallel</span><br>
+job = group(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;process_image.s(img1),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;process_image.s(img2),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;process_image.s(img3)<br>
+)<br>
+result = job.apply_async()<br>
+<br>
+<span class="code-comment"># Get all results as a list</span><br>
+results = result.get()  <span class="code-comment"># [res1, res2, res3]</span>
+            </div>
+            
+            <div class="use-cases">
+                <h3>🎯 When to Use:</h3>
+                <ul>
+                    <li>Processing multiple independent items (e.g., batch image processing)</li>
+                    <li>Making multiple API calls that don't depend on each other</li>
+                    <li>Running the same task with different inputs simultaneously</li>
+                    <li>When you need all results but order doesn't matter</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box">
+                <strong>Key Point:</strong> All tasks run in parallel. You get a list of results in the same order as tasks were submitted.
+            </div>
+        </div>
+        
+        <!-- CHAIN -->
+        <div id="chain" class="content">
+            <div class="concept-header">
+                <h2>⛓️ Chain</h2>
+                <p>Execute tasks sequentially where each task's output becomes the input for the next task. Think of it as "do this, then do that with the result."</p>
+            </div>
+            
+            <div class="visual-demo">
+                <div class="demo-title">Visual Flow:</div>
+                <div class="task-flow">
+                    <div class="task">Task 1</div>
+                    <div class="arrow">→</div>
+                    <div class="task" style="animation-delay: 0.5s;">Task 2</div>
+                    <div class="arrow">→</div>
+                    <div class="task" style="animation-delay: 1s;">Task 3</div>
+                    <div class="arrow">→</div>
+                    <div class="result">Final Result</div>
+                </div>
+                <div style="margin-top: 15px; color: #4a5568; font-style: italic;">
+                    Each task waits for the previous one to complete
+                </div>
+            </div>
+            
+            <div class="code-example">
+from celery import chain<br>
+<br>
+<span class="code-comment"># Task 1 output → Task 2 input → Task 3 input</span><br>
+job = chain(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fetch_data.s(url),        <span class="code-comment"># Returns raw data</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;parse_data.s(),          <span class="code-comment"># Gets raw data, returns parsed</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;save_to_db.s()           <span class="code-comment"># Gets parsed data, returns ID</span><br>
+)<br>
+result = job.apply_async()<br>
+<br>
+<span class="code-comment"># Get only the final result</span><br>
+final_result = result.get()  <span class="code-comment"># Just the DB ID</span>
+            </div>
+            
+            <div class="use-cases">
+                <h3>🎯 When to Use:</h3>
+                <ul>
+                    <li>Data processing pipelines (fetch → transform → store)</li>
+                    <li>When each step depends on the previous step's output</li>
+                    <li>Multi-stage transformations (resize image → add watermark → compress)</li>
+                    <li>Workflows where order matters</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box">
+                <strong>Key Point:</strong> Tasks run sequentially. Each task automatically receives the previous task's result as its first argument. You only get the final result.
+            </div>
+        </div>
+        
+        <!-- CHORD -->
+        <div id="chord" class="content">
+            <div class="concept-header">
+                <h2>🎵 Chord</h2>
+                <p>A Group followed by a callback task. Run multiple tasks in parallel, wait for ALL to complete, then run one final task with all results. Think of it as "do all these in parallel, then do this with all the results."</p>
+            </div>
+            
+            <div class="visual-demo">
+                <div class="demo-title">Visual Flow:</div>
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="font-weight: 600; color: #2d3748;">Start →</div>
+                    <div class="parallel-container">
+                        <div class="task">Task 1</div>
+                        <div class="task" style="animation-delay: 0.3s;">Task 2</div>
+                        <div class="task" style="animation-delay: 0.6s;">Task 3</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="task" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">Callback([r1, r2, r3])</div>
+                    <div class="arrow">→</div>
+                    <div class="result">Final Result</div>
+                </div>
+                <div style="margin-top: 15px; color: #4a5568; font-style: italic;">
+                    Callback waits for ALL parallel tasks to finish
+                </div>
+            </div>
+            
+            <div class="code-example">
+from celery import chord<br>
+<br>
+<span class="code-comment"># Run tasks in parallel, then aggregate results</span><br>
+job = chord(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;analyze_log.s(log1),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;analyze_log.s(log2),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;analyze_log.s(log3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+)(create_report.s())  <span class="code-comment"># Callback gets [res1, res2, res3]</span><br>
+<br>
+result = job.get()  <span class="code-comment"># Returns the report</span>
+            </div>
+            
+            <div class="use-cases">
+                <h3>🎯 When to Use:</h3>
+                <ul>
+                    <li>Process multiple items then aggregate (analyze logs → create summary report)</li>
+                    <li>Parallel computation followed by consolidation (map-reduce pattern)</li>
+                    <li>Fetch data from multiple sources then combine</li>
+                    <li>When you need to do something with ALL results together</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box">
+                <strong>Key Point:</strong> Chord = Group + Callback. The callback receives a list of ALL results from the group. Perfect for map-reduce patterns.
+            </div>
+        </div>
+        
+        <!-- CHUNK -->
+        <div id="chunk" class="content">
+            <div class="concept-header">
+                <h2>🍰 Chunk</h2>
+                <p>Split a large batch of work into smaller groups that run in parallel. Think of it as "I have 1000 items, process them in batches of 100."</p>
+            </div>
+            
+            <div class="visual-demo">
+                <div class="demo-title">Visual Flow:</div>
+                <div style="margin-bottom: 20px; color: #4a5568;">
+                    <strong>1000 items</strong> → Split into chunks of 100
+                </div>
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div class="parallel-container">
+                        <div class="task" style="font-size: 0.9em;">Chunk 1 (items 1-100)</div>
+                        <div class="task" style="font-size: 0.9em; animation-delay: 0.2s;">Chunk 2 (items 101-200)</div>
+                        <div class="task" style="font-size: 0.9em; animation-delay: 0.4s;">Chunk 3 (items 201-300)</div>
+                        <div style="text-align: center; color: #718096; font-size: 1.5em;">⋮</div>
+                        <div class="task" style="font-size: 0.9em; animation-delay: 0.6s;">Chunk 10 (items 901-1000)</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="result">All Results</div>
+                </div>
+                <div style="margin-top: 15px; color: #4a5568; font-style: italic;">
+                    Each chunk processes independently
+                </div>
+            </div>
+            
+            <div class="code-example">
+from celery import chunks<br>
+<br>
+<span class="code-comment"># Process 1000 emails in batches of 100</span><br>
+items = list(range(1000))  <span class="code-comment"># Your data</span><br>
+<br>
+job = send_email.chunks(items, 100)  <span class="code-comment"># 10 groups of 100</span><br>
+result = job.apply_async()<br>
+<br>
+<span class="code-comment"># Returns a GroupResult with 10 sublists</span><br>
+results = result.get()  <span class="code-comment"># [[res1-100], [res101-200], ...]</span>
+            </div>
+            
+            <div class="use-cases">
+                <h3>🎯 When to Use:</h3>
+                <ul>
+                    <li>Processing large datasets that would overwhelm if sent all at once</li>
+                    <li>Rate-limiting: control how many tasks run simultaneously</li>
+                    <li>Memory management: process data in manageable batches</li>
+                    <li>Bulk operations (send 10,000 emails in chunks of 100)</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box">
+                <strong>Key Point:</strong> Chunks automatically splits your work into parallel batches. It's essentially a convenient way to create a Group with batched data. Great for controlling resource usage.
+            </div>
+        </div>
+        
+        <!-- COMPARISON -->
+        <div id="comparison" class="content">
+            <div class="concept-header">
+                <h2>🔍 Quick Comparison</h2>
+                <p>Understanding when to use each primitive</p>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Primitive</th>
+                        <th>Execution</th>
+                        <th>Result</th>
+                        <th>Use When...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Group</strong></td>
+                        <td>All tasks in parallel</td>
+                        <td>List of all results</td>
+                        <td>Tasks are independent, need all results</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chain</strong></td>
+                        <td>Sequential (one after another)</td>
+                        <td>Final task result only</td>
+                        <td>Each step depends on previous output</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chord</strong></td>
+                        <td>Parallel + callback</td>
+                        <td>Callback result</td>
+                        <td>Need to aggregate parallel results</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chunk</strong></td>
+                        <td>Batched parallel</td>
+                        <td>List of batch results</td>
+                        <td>Large dataset, need resource control</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="visual-demo" style="margin-top: 30px;">
+                <div class="demo-title">Real-World Decision Tree:</div>
+                <div style="line-height: 2; color: #2d3748;">
+                    <strong>❓ Do tasks depend on each other's output?</strong><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;✅ YES → Use <strong style="color: #667eea;">Chain</strong><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;❌ NO → Continue...<br>
+                    <br>
+                    <strong>❓ Do you have MANY items (100s/1000s)?</strong><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;✅ YES → Use <strong style="color: #667eea;">Chunk</strong><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;❌ NO → Continue...<br>
+                    <br>
+                    <strong>❓ Need to process all results together?</strong><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;✅ YES → Use <strong style="color: #667eea;">Chord</strong><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;❌ NO → Use <strong style="color: #667eea;">Group</strong><br>
+                </div>
+            </div>
+            
+            <div class="use-cases" style="margin-top: 30px;">
+                <h3>🎯 Common Patterns Combined:</h3>
+                <ul>
+                    <li><strong>Chain of Groups:</strong> Multiple parallel stages in sequence (fetch all data → process all data → save all data)</li>
+                    <li><strong>Group of Chains:</strong> Multiple independent pipelines running in parallel</li>
+                    <li><strong>Chord with Chain callback:</strong> Parallel work → sequential processing of results</li>
+                    <li><strong>Chunks in Chord:</strong> Process huge dataset in batches, then aggregate</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(c => c.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Show selected content and activate tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
