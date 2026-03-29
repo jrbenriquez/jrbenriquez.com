@@ -1,0 +1,9 @@
+<main {% if id %}id="{{id}}"{% endif %} class="flex flex-col items-center px-4">
+    {% for post in blogpages %}
+        {% with post.specific as post %}
+        {% include "components/blog_card.html" with post=post %}
+        {% endwith %}
+    {% empty %}
+      Nothing here...
+    {% endfor %}
+  </main>

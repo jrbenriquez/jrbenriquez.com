@@ -5,9 +5,10 @@ db.sqlite3
 /jrbenriquez/static/vue/
 /media
 /static
+/staticfiles
+styling/static/css/dist/
 .DS_Store
 .env
 .mypy_cache/
 */webpack-stats.json
 .rc
-/staticfiles
