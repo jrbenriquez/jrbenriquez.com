@@ -19,3 +19,4 @@ backup.json
 error.log
 render_dump.json
 .db_url
+backups/
