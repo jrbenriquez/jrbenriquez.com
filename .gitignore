@@ -12,3 +12,10 @@ styling/static/css/dist/
 .mypy_cache/
 */webpack-stats.json
 .rc
+
+.env.*
+!.env.example
+backup.json
+error.log
+render_dump.json
+.db_url

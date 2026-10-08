@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.urls import include, path
 from django.contrib import admin
+from django.db import connection
+from django.http import HttpResponse
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
@@ -8,7 +10,15 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
 
+def health(request):
+    connection.close()  # reopen, so a vanished DB file is detected
+    with connection.cursor() as c:
+        c.execute("SELECT 1 FROM django_migrations LIMIT 1")
+    return HttpResponse("ok")
+
+
 urlpatterns = [
+    path("health/", health),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
